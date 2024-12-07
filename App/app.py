@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify
 import pandas as pd
 import pickle
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app) 
 
 # Load the RAC model
 model_paths = {
