@@ -18,15 +18,29 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    // Get a user by email
     public User getUserByEmail(String email) {
-        return userRepository.findByEmail(email);
+        System.out.println("Finding user by email: " + email); // Debug log
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            System.out.println("User not found with email: " + email); // Debug log
+        }
+        return user;
     }
+    
+    public User getUserByUserName(String userName) {
+        System.out.println("Finding user by username: " + userName); // Debug log
+        User user = userRepository.findByUserName(userName);
+        if (user == null) {
+            System.out.println("User not found with username: " + userName); // Debug log
+        }
+        return user;
+    }
+    
 
     // Get a user by ID
     public User getUserById(String id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));  // Returns the user or throws exception
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
     }
 
     // Update an existing user
@@ -35,8 +49,12 @@ public class UserService {
         if (existingUserOptional.isPresent()) {
             User existingUser = existingUserOptional.get();
             // Update fields
-            existingUser.setName(updatedUser.getName());
+            existingUser.setFirstName(updatedUser.getFirstName());
+            existingUser.setLastName(updatedUser.getLastName());
+            existingUser.setBirthDate(updatedUser.getBirthDate());
+            existingUser.setMobileNumber(updatedUser.getMobileNumber());
             existingUser.setEmail(updatedUser.getEmail());
+            existingUser.setUserName(updatedUser.getUserName());
             existingUser.setPassword(updatedUser.getPassword());
             return userRepository.save(existingUser);
         } else {
